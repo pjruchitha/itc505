@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form with Validation</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 550px;
+            border: 2px solid #4CAF50;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #4CAF50;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0 18px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: -12px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Additional Styling for Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            input[type="submit"] {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+    <script>
+        // Form Validation Function
+        function validateForm() {
+            // Get form values
+            var firstName = document.getElementById("first-name").value.trim();
+            var lastName = document.getElementById("last-name").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var phone = document.getElementById("phone").value.trim();
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+            var address = document.getElementById("address").value.trim();
+
+            // Clear any previous error messages
+            var errorMessages = document.getElementsByClassName("error-message");
+            for (var i = 0; i < errorMessages.length; i++) {
+                errorMessages[i].remove();
+            }
+
+            // Validate empty fields
+            if (!firstName || !lastName || !email || !phone || !password || !confirmPassword || !address) {
+                showError("All fields must be filled out.");
+                return false;
+            }
+
+            // Validate email format
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                showError("Please enter a valid email address.");
+                return false;
+            }
+
+            // Validate phone number format (basic validation)
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                showError("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                showError("Passwords do not match.");
+                return false;
+            }
+
+            // If all validations pass
+            alert("Form submitted successfully!");
+            return true;
+        }
+
+        // Function to display error messages
+        function showError(message) {
+            var errorDiv = document.createElement("div");
+            errorDiv.classList.add("error-message");
+            errorDiv.textContent = message;
+            document.querySelector(".form-container").insertBefore(errorDiv, document.querySelector("form"));
+        }
+    </script>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Registration Form</h2>
+        <form onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first-name" placeholder="Enter your first name">
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last-name" placeholder="Enter your last name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" placeholder="Enter your phone number (10 digits)">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter a secure password">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address">
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
