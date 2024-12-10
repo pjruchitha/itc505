@@ -30,6 +30,17 @@
             margin-top: 20px;
             font-size: 12px;
         }
+        .addendum {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +48,33 @@
     <div class="grid" id="gameGrid"></div>
     <button onclick="randomizeBoard()">Reset Game</button>
     <p>Moves: <span id="moveCounter">0</span></p>
+
+    <div class="addendum">
+        <h2>Addendum: Development Process and Creative Choices</h2>
+        <h3>1. Development Process</h3>
+        <p>The game was developed step-by-step, starting with creating a dynamic 5x5 grid and attaching click event listeners. Game logic was implemented to toggle the state of the clicked square and its neighbors, followed by a randomization function to generate solvable puzzles.</p>
+
+        <h3>2. Creative Choices</h3>
+        <ul>
+            <li><strong>Styling:</strong> A simple black-and-white theme was chosen to align with the classic Lights Out style.</li>
+            <li><strong>User Experience:</strong> A move counter and reset button were added to enhance gameplay.</li>
+            <li><strong>Feedback:</strong> An alert pop-up indicates when the game is won.</li>
+        </ul>
+
+        <h3>3. Challenges and Solutions</h3>
+        <p>One challenge was generating solvable random boards. This was addressed by simulating random clicks on an all-off board. Additionally, checking the win condition required iterating through all squares, solved using array manipulation.</p>
+
+        <h3>4. Insights Gained</h3>
+        <p>Developing the game provided insights into dynamic DOM manipulation, grid-based logic, and testing for edge cases. The experience also highlighted the importance of clear logic in game development.</p>
+
+        <h3>Future Improvements</h3>
+        <ul>
+            <li>Add animations for smoother transitions.</li>
+            <li>Introduce variable grid sizes for different difficulty levels.</li>
+            <li>Implement a scoreboard to track high scores.</li>
+        </ul>
+    </div>
+
     <footer>
         <p>Last updated: 
             <span id="lastModified"></span>
