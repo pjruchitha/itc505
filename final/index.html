@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights Out Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-gap: 5px;
+            justify-content: center;
+        }
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .is-off {
+            background-color: black;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lights Out Game</h1>
+    <div class="grid" id="gameGrid"></div>
+    <button onclick="randomizeBoard()">Reset Game</button>
+    <p>Moves: <span id="moveCounter">0</span></p>
+    <footer>
+        <p>Last updated: 
+            <span id="lastModified"></span>
+        </p>
+    </footer>
+    <script>
+        // Set last modified date
+        var x = document.lastModified;
+        document.getElementById('lastModified').textContent = x;
+
+        // Game logic
+        const gridSize = 5;
+        const gameGrid = document.getElementById("gameGrid");
+        let moves = 0;
+
+        // Create the grid dynamically
+        const createGrid = () => {
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const square = document.createElement("div");
+                square.classList.add("square");
+                square.dataset.index = i; // Assign an index for reference
+                square.addEventListener("click", () => toggleLights(i));
+                gameGrid.appendChild(square);
+            }
+        };
+
+        // Toggle lights for a square and its neighbors
+        const toggleLights = (index) => {
+            moves++;
+            document.getElementById("moveCounter").textContent = moves;
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+            toggleSquare(row, col);
+            toggleSquare(row - 1, col); // Top
+            toggleSquare(row + 1, col); // Bottom
+            toggleSquare(row, col - 1); // Left
+            toggleSquare(row, col + 1); // Right
+
+            // Check if the game is solved
+            if (checkWin()) {
+                window.alert("You win!");
+            }
+        };
+
+        // Toggle a single square's state
+        const toggleSquare = (row, col) => {
+            if (row < 0 || row >= gridSize || col < 0 || col >= gridSize) return;
+            const index = row * gridSize + col;
+            const square = gameGrid.children[index];
+            square.classList.toggle("is-off");
+        };
+
+        // Check if all squares are "off"
+        const checkWin = () => {
+            return Array.from(gameGrid.children).every(square =>
+                square.classList.contains("is-off")
+            );
+        };
+
+        // Randomize the board with a solvable configuration
+        const randomizeBoard = () => {
+            moves = 0;
+            document.getElementById("moveCounter").textContent = moves;
+            Array.from(gameGrid.children).forEach(square =>
+                square.classList.remove("is-off")
+            ); // Reset board
+            const randomClicks = Math.floor(Math.random() * 20) + 10; // Randomize number of clicks
+            for (let i = 0; i < randomClicks; i++) {
+                const randomIndex = Math.floor(Math.random() * gridSize * gridSize);
+                toggleLights(randomIndex);
+            }
+        };
+
+        // Initialize the game
+        createGrid();
+        randomizeBoard();
+    </script>
+</body>
+</html>
